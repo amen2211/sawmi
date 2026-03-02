@@ -1,0 +1,337 @@
+📦 STRUCTURE DU PROJET - Swmi صومي
+=====================================
+
+🌙 Swmi - صومي
+منصة الصيام والارتقاء الروحي الاحترافية
+النسخة: 1.0.0 | السنة: 2026
+
+=====================================
+
+
+📂 STRUCTURE DES FICHIERS
+=====================================
+
+swmi/
+│
+├── 📄 HTML Pages
+│   ├── index.html              ✅ الصفحة الرئيسية (المحتوى الكامل)
+│   ├── profile.html            ✅ صفحة الملف الشخصي للمستخدم
+│   └── dashboard.html          ✅ لوحة التحكم وتتبع الصيام
+│
+├── 🎨 Styling & Design
+│   └── styles.css              ✅ التصميم الكامل (Responsive)
+│
+├── 🔧 JavaScript - Core
+│   ├── script.js               ✅ سلوك الصفحة الرئيسية
+│   ├── api.js                  ✅ إدارة البيانات والـ API
+│   └── auth.js                 ✅ نظام المصادقة والمستخدمين
+│
+├── 📊 Data & Configuration
+│   ├── data.json               ✅ قاعدة البيانات الشاملة
+│   └── config.json             ✅ إعدادات التطبيق
+│
+├── 📚 Documentation
+│   ├── README.md               ✅ دليل مستخدم شامل
+│   ├── DEVELOPER.md            ✅ دليل المطور والتوسيع
+│   ├── INSTALL.sh              ✅ سكريبت التثبيت
+│   └── FILES.txt               ✅ هذا الملف
+│
+└── 🔐 Other
+    └── .gitignore             (اختياري) ملفات Git
+
+
+======================================
+📋 تفاصيل الملفات
+======================================
+
+🏠 PAGES HTML
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ index.html (≈ 850 سطر)
+   ├─ قسم البطل (Hero)
+   ├─ الآية القرآنية
+   ├─ أحكام الصيام (6 بطاقات)
+   ├─ مركز رمضان الروحي (6 بطاقات)
+   ├─ عداد الإفطار (تفاعلي)
+   ├─ المحتوى اليومي الإسلامي
+   ├─ الأذكار والدعاء (5 تبويبات)
+   │  └─ التسبيح التفاعلي مع عداد
+   ├─ معرض الآيات القرآنية
+   ├─ الأسئلة الشائعة (أكورديون)
+   ├─ رمضان صحي (نصائح)
+   ├─ مجتمع سوميّ (أربع بطاقات)
+   ├─ تذييل الموقع
+   ├─ شريط الإجراءات للهاتف
+   └─ مودال المصادقة
+
+2️⃣ profile.html (≈ 400 سطر)
+   ├─ رأس الملف الشخصي
+   ├─ بطاقات الإحصائيات (3)
+   ├─ عرض الهدف القادم
+   ├─ المعلومات الشخصية
+   ├─ الأدعية المفضلة
+   ├─ الإعدادات (إشعارات، مظهر، بريد)
+   ├─ منطقة الخطورة (تسجيل خروج، حذف)
+   └─ شريط الإجراءات للهاتف
+
+3️⃣ dashboard.html (≈ 600 سطر)
+   ├─ رأس لوحة التحكم
+   ├─ أزرار العمل السريعة (3)
+   ├─ بطاقات الإحصائيات (4)
+   ├─ تقويم الشهر التفاعلي
+   ├─ رسم بياني لآخر 12 شهر
+   ├─ نظام الإنجازات (6 نوسم)
+   └─ شريط الإجراءات للهاتف
+
+
+🎨 STYLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 styles.css (≈ 1200 سطر)
+   ├─ متغيرات CSS (ألوان، ظلال)
+   ├─ Typography (الخطوط)
+   ├─ Header & Navigation
+   ├─ Hero Section
+   ├─ جميع الأقسام
+   ├─ Cards & Components
+   ├─ Forms & Inputs
+   ├─ Animations & Transitions
+   ├─ Responsive Design
+   │  ├─ Desktop (750px+)
+   │  ├─ Tablet (768px)
+   │  └─ Mobile (480px و 360px)
+   ├─ Footer
+   └─ Mobile Actions Bar
+
+
+🔧 JAVASCRIPT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ api.js (≈ 250 سطر)
+   
+   SwmiAPI Class:
+   ├─ loadData()          → تحميل data.json
+   ├─ getData()           → الحصول على كل البيانات
+   ├─ getFastingRules()   → أحكام الصيام
+   ├─ getHadiths()        → الأحاديث الصحيحة
+   ├─ getCities()         → المدن التونسية
+   ├─ getPrayerTimes()    → أوقات الصلاة
+   ├─ getAdhkar()         → الأذكار والأدعية
+   ├─ getQuranVerses()    → آيات القرآن
+   ├─ getFAQs()           → الأسئلة الشائعة
+   └─ getHealthTips()     → النصائح الصحية
+
+   SwmiStorage Class:
+   ├─ saveUser()          → حفظ بيانات المستخدم
+   ├─ getUser()           → الحصول على المستخدم
+   ├─ addFastingDay()     → إضافة يوم صيام
+   ├─ getFastingDays()    → الحصول على أيام الصيام
+   ├─ addFavoriteDua()    → حفظ دعاء مفضل
+   ├─ getFavoriteDuas()   → الأدعية المفضلة
+   ├─ saveSettings()      → حفظ الإعدادات
+   ├─ getSettings()       → الإعدادات
+   ├─ getTasbeehCount()   → عداد التسبيح
+   ├─ exportData()        → تصدير كل البيانات
+   ├─ importData()        → استيراد البيانات
+   └─ clearAllData()      → حذف كل البيانات
+
+2️⃣ auth.js (≈ 280 سطر)
+
+   SwmiAuth Class:
+   ├─ register()          → تسجيل مستخدم جديد
+   ├─ login()             → تسجيل الدخول
+   ├─ logout()            → تسجيل الخروج
+   ├─ getCurrentUser()    → المستخدم الحالي
+   ├─ isLoggedIn()        → تحقق من الدخول
+   ├─ updateProfile()     → تحديث الملف الشخصي
+   ├─ changePassword()    → تغيير كلمة المرور
+   ├─ deleteAccount()     → حذف الحساب
+   ├─ getPublicProfile()  → ملف عام للمستخدم
+   └─ generateAvatar()    → توليد صورة مستخدم
+
+   SwmiProgress Class:
+   ├─ recordFastingDay()  → تسجيل يوم صيام
+   ├─ getFastingHistory() → تاريخ الصيام
+   ├─ getMonthProgress()  → تقدم الشهر
+   ├─ getCurrentStreak()  → السلسلة الحالية
+   ├─ getOverallStats()   → إحصائيات عامة
+   ├─ getMonthCalendar()  → تقويم الشهر
+   ├─ isFastedToday()     → هل صام اليوم
+   └─ getNextMilestone()  → الهدف القادم
+
+3️⃣ script.js (≈ 400 سطر)
+
+   Navigation:
+   ├─ Hamburger menu toggle
+   ├─ Smooth scrolling
+   └─ Nav link handling
+
+   Prayer Times:
+   ├─ City selection
+   ├─ Countdown timer
+   ├─ Prayer times update
+   └─ Maghrib calculation
+
+   Adhkar Features:
+   ├─ Tab switching
+   ├─ Dua copying
+   ├─ Tasbeeh counter
+   └─ Phrase selection
+
+   FAQ:
+   ├─ Accordion functionality
+   └─ Smooth expand/collapse
+
+   Daily Content:
+   ├─ Daily verse rotation
+   ├─ Daily hadith loading
+   ├─ Daily tips display
+   └─ Tafsir rotation
+
+   Mobile Actions:
+   ├─ WhatsApp sharing
+   ├─ Call functionality
+   ├─ Native share API
+   └─ Email composition
+
+   Authentication:
+   ├─ Modal open/close
+   ├─ Tab switching
+   ├─ Login form handling
+   ├─ Register form handling
+   └─ UI updates
+
+
+📊 DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 data.json (≈ 300 سطر)
+   ├─ Platform info
+   ├─ Fasting rules (4)
+   ├─ Hadiths (3)
+   ├─ Cities (8)
+   ├─ Prayer times (8 cities)
+   ├─ Adhkar (4 categories)
+   ├─ Quran verses (4)
+   ├─ FAQs (3+)
+   └─ Health tips (4+)
+
+📄 config.json (≈ 150 سطر)
+   ├─ App configuration
+   ├─ Features flags
+   ├─ Storage keys
+   ├─ Color scheme
+   ├─ Mobile breakpoints
+   ├─ Sections list
+   ├─ Default settings
+   ├─ Achievements
+   └─ Social links
+
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 README.md (≈ 300 سطر)
+   ├─ شرح المشروع
+   ├─ محتويات المشروع
+   ├─ الميزات الرئيسية
+   ├─ نظام الاستجابة
+   ├─ التصميم والألوان
+   ├─ شرح الصفحات
+   ├─ البدء السريع
+   ├─ تصدير البيانات
+   └─ شرح البنية التقنية
+
+📄 DEVELOPER.md (≈ 400 سطر)
+   ├─ للمطورين فقط
+   ├─ شرح العمارة
+   ├─ شرح الفئات الرئيسية
+   ├─ إضافة بيانات جديدة
+   ├─ إنشاء صفحات جديدة
+   ├─ توسيع الميزات
+   ├─ تخصيص الموضوع
+   ├─ debugging
+   └─ أدلة النشر
+
+📄 INSTALL.sh (~20 سطر)
+   └─ سكريبت تثبيت بسيط
+
+
+=====================================
+📈 إحصائيات المشروع
+=====================================
+
+Total Files:        11
+Total Lines:        ~5,500+
+Total Size:         ~2.5 MB (مع الصور)
+Code Files:         7
+Documentation:      3
+Data Files:         2
+Configuration:      1
+
+Languages:
+  - HTML:           ~1,900 lines
+  - CSS:            ~1,200 lines
+  - JavaScript:     ~1,100 lines
+  - JSON:           ~450 lines
+  - Markdown:       ~850 lines
+
+
+=====================================
+🎯 الميزات الرئيسية
+=====================================
+
+✅ نظام مصادقة كامل
+✅ تخزين محلي (LocalStorage)
+✅ تتبع أيام الصيام
+✅ عداد إفطار تفاعلي
+✅ أذكار وتسبيح
+✅ معرض آيات
+✅ نظام الإنجازات
+✅ إعدادات شخصية
+✅ تصميم ديناميكي
+✅ متوافق مع الهواتف
+✅ واجهة عربية 100%
+✅ أكثر من 11 قسم
+
+=====================================
+📱 التوافق
+=====================================
+
+✅ Desktop (Chrome, Firefox, Safari, Edge)
+✅ Tablet (iPad, Android tablets)
+✅ Mobile (iPhone, Samsung, Huawei)
+✅ RTL (اتجاه النص من اليمين)
+✅ Responsive من 360px إلى 4K
+
+
+=====================================
+🚀 البدء
+=====================================
+
+1. فتح index.html في المتصفح
+2. النقر على "دخول"
+3. إنشاء حساب جديد
+4. استكشاف جميع الميزات
+5. قراءة README.md للتفاصيل
+
+
+=====================================
+📞 المعلومات
+=====================================
+
+الاسم:      Swmi - صومي
+الإصدار:    1.0.0
+السنة:      2026
+النوع:      منصة ويب
+اللغة:      العربية (RTL)
+الترخيص:    حقوق محفوظة 2026
+
+الموقع:     swmi.com
+البريد:     contact@swmi.com
+الهاتف:     +216
+
+
+=====================================
+✨ شكراً لاستخدام Swmi! ✨
+=====================================

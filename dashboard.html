@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - Swmi | صومي</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231a5c4a'/><text x='50' y='60' font-size='60' font-weight='bold' text-anchor='middle' fill='%23d4a574'>🌙</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            padding: 3rem 2rem;
+            color: var(--white);
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-action-btn {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #c89d5c 100%);
+            color: var(--primary-green);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--gold);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            color: var(--primary-green);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .calendar-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .calendar-nav button {
+            padding: 0.5rem 1rem;
+            background: var(--light-gray);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav button:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary-green);
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            border-color: var(--gold);
+            background: rgba(212, 165, 116, 0.1);
+        }
+
+        .calendar-day.empty {
+            background: var(--light-gray);
+            cursor: default;
+        }
+
+        .calendar-day.empty:hover {
+            border-color: var(--border-color);
+            background: var(--light-gray);
+        }
+
+        .calendar-day.completed {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: var(--white);
+            border-color: var(--primary-green);
+        }
+
+        .calendar-day.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.8rem;
+        }
+
+        .calendar-day.skipped {
+            background: #f0f0f0;
+            color: #999;
+            border-color: #ddd;
+        }
+
+        .calendar-day.skipped::after {
+            content: '✕';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.8rem;
+        }
+
+        .chart-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .month-chart {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0.5rem;
+        }
+
+        .month-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .month-label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .month-progress {
+            width: 100%;
+            height: 60px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .month-progress-fill {
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .achievements {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .achievements-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .achievement.unlocked {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.2) 0%, rgba(26, 92, 74, 0.2) 100%);
+            opacity: 1;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                padding: 2rem 1rem;
+            }
+
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 0.3rem;
+            }
+
+            .calendar-day {
+                font-size: 0.75rem;
+                padding: 0.25rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .dashboard-content {
+                padding: 0 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    <span>Swmi</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                    <li><a href="profile.html" class="nav-link">ملفي</a></li>
+                    <li><a href="dashboard.html" class="nav-link">لوحة التحكم</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">📊 لوحة التحكم</h1>
+        <p>تابع تقدمك وحقق أهدافك الروحية</p>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-action-btn" onclick="recordTodaysFast()">
+                <i class="fas fa-check-circle"></i> سجل اليوم
+            </button>
+            <button class="quick-action-btn" onclick="skipToday()">
+                <i class="fas fa-times-circle"></i> تخطي اليوم
+            </button>
+            <button class="quick-action-btn" onclick="viewStats()">
+                <i class="fas fa-chart-bar"></i> الإحصائيات
+            </button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-number" id="total-days">0</div>
+                <div class="stat-label">إجمالي أيام الصيام</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-number" id="completed-days">0</div>
+                <div class="stat-label">أيام مكتملة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-number" id="current-streak">0</div>
+                <div class="stat-label">السلسلة الحالية</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-number" id="percentage">0%</div>
+                <div class="stat-label">النسبة المئوية</div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <h3 class="calendar-title">📆 تقويم الصيام</h3>
+                <div class="calendar-nav">
+                    <button onclick="previousMonth()">&lsaquo; السابق</button>
+                    <span id="calendar-month" style="padding: 0 1rem; font-weight: 600; color: var(--primary-green);"></span>
+                    <button onclick="nextMonth()">التالي &rsaquo;</button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+
+        <!-- Monthly Progress Chart -->
+        <div class="chart-section">
+            <h3 class="chart-title">📊 إحصائيات آخر 12 شهر</h3>
+            <div class="month-chart" id="month-chart"></div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="achievements">
+            <h3 class="achievements-title">🏆 الإنجازات</h3>
+            <div class="achievements-grid">
+                <div class="achievement" id="achievement-1">
+                    <div class="achievement-icon">🌙</div>
+                    <div class="achievement-name">البداية</div>
+                </div>
+                <div class="achievement" id="achievement-10">
+                    <div class="achievement-icon">⭐</div>
+                    <div class="achievement-name">10 أيام</div>
+                </div>
+                <div class="achievement" id="achievement-30">
+                    <div class="achievement-icon">💫</div>
+                    <div class="achievement-name">شهر كامل</div>
+                </div>
+                <div class="achievement" id="achievement-100">
+                    <div class="achievement-icon">👑</div>
+                    <div class="achievement-name">100 يوم</div>
+                </div>
+                <div class="achievement" id="achievement-365">
+                    <div class="achievement-icon">🌟</div>
+                    <div class="achievement-name">سنة كاملة</div>
+                </div>
+                <div class="achievement" id="achievement-streak-7">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-name">سلسلة 7 أيام</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Actions -->
+    <div class="mobile-actions">
+        <button class="mobile-btn" id="whatsapp-btn" title="شارك على WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </button>
+        <button class="mobile-btn" id="call-btn" title="اتصل بنا">
+            <i class="fas fa-phone"></i>
+            <span>اتصل</span>
+        </button>
+        <button class="mobile-btn" id="share-btn" title="شارك">
+            <i class="fas fa-share-alt"></i>
+            <span>شارك</span>
+        </button>
+        <button class="mobile-btn" id="email-btn" title="راسلنا بالبريد">
+            <i class="fas fa-envelope"></i>
+            <span>بريد</span>
+        </button>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // ===== التحقق من تسجيل الدخول =====
+        if (!auth.isLoggedIn()) {
+            alert('يرجى تسجيل الدخول أولاً');
+            window.location.href = 'index.html';
+        }
+
+        let currentDate = new Date();
+
+        // ===== تحميل الإحصائيات =====
+        function loadDashboard() {
+            const stats = progress.getOverallStats();
+            const percentage = stats.totalFastingDays > 0 ? Math.round((stats.completedDays / stats.totalFastingDays) * 100) : 0;
+
+            document.getElementById('total-days').textContent = stats.totalFastingDays;
+            document.getElementById('completed-days').textContent = stats.completedDays;
+            document.getElementById('current-streak').textContent = stats.streak;
+            document.getElementById('percentage').textContent = percentage + '%';
+
+            loadCalendar();
+            loadMonthlyChart();
+            loadAchievements();
+        }
+
+        // ===== تحميل التقويم =====
+        function loadCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const monthName = new Date(year, month, 1).toLocaleDateString('ar-TN', { month: 'long', year: 'numeric' });
+            document.getElementById('calendar-month').textContent = monthName;
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            const calendar = storage.getMonthCalendar(year, month + 1);
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            // أيام الأسبوع
+            const dayNames = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            dayNames.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-day-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+
+            // الأيام الفارغة
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'calendar-day empty';
+                grid.appendChild(empty);
+            }
+
+            // أيام الشهر
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                dayElement.date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                if (calendar[day] === 'completed') {
+                    dayElement.classList.add('completed');
+                } else if (calendar[day] === 'skipped') {
+                    dayElement.classList.add('skipped');
+                }
+
+                dayElement.addEventListener('click', () => toggleDayStatus(dayElement));
+                grid.appendChild(dayElement);
+            }
+        }
+
+        // ===== تبديل حالة اليوم =====
+        function toggleDayStatus(dayElement) {
+            if (!dayElement.date) return;
+
+            const currentStatus = dayElement.className.split(' ').find(cls => ['completed', 'skipped'].includes(cls));
+
+            if (currentStatus === 'completed') {
+                dayElement.classList.remove('completed');
+                dayElement.classList.add('skipped');
+                storage.addFastingDay(dayElement.date, 'skipped');
+            } else if (currentStatus === 'skipped') {
+                dayElement.classList.remove('skipped');
+                storage.addFastingDay(dayElement.date, 'completed');
+            } else {
+                dayElement.classList.add('completed');
+                storage.addFastingDay(dayElement.date, 'completed');
+            }
+
+            loadDashboard();
+        }
+
+        // ===== تسجيل صيام اليوم =====
+        function recordTodaysFast() {
+            const today = new Date().toISOString().split('T')[0];
+            storage.addFastingDay(today, 'completed');
+            alert('✅ تم تسجيل صيام اليوم بنجاح!');
+            loadDashboard();
+        }
+
+        // ===== تخطي اليوم =====
+        function skipToday() {
+            const today = new Date().toISOString().split('T')[0];
+            storage.addFastingDay(today, 'skipped');
+            alert('⏭️ تم تخطي اليوم');
+            loadDashboard();
+        }
+
+        // ===== التنقل بين الأشهر =====
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            loadCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            loadCalendar();
+        }
+
+        // ===== رسم بياني شهري =====
+        function loadMonthlyChart() {
+            const chart = document.getElementById('month-chart');
+            chart.innerHTML = '';
+
+            for (let i = 11; i >= 0; i--) {
+                const date = new Date();
+                date.setMonth(date.getMonth() - i);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const monthStr = `${year}-${String(month).padStart(2, '0')}`;
+                
+                const days = storage.getFastingDays().filter(d => d.date.startsWith(monthStr));
+                const completed = days.filter(d => d.status === 'completed').length;
+                const percentage = (completed / 31) * 100;
+
+                const monthName = date.toLocaleDateString('ar-TN', { month: 'short' });
+
+                const bar = document.createElement('div');
+                bar.className = 'month-bar';
+                bar.innerHTML = `
+                    <div class="month-progress" title="${monthName}: ${completed} أيام">
+                        <div class="month-progress-fill" style="width: ${percentage}%">${completed}</div>
+                    </div>
+                    <div class="month-label">${monthName}</div>
+                `;
+                chart.appendChild(bar);
+            }
+        }
+
+        // ===== تحميل الإنجازات =====
+        function loadAchievements() {
+            const stats = progress.getOverallStats();
+
+            const achievements = [
+                { id: 'achievement-1', condition: stats.completedDays >= 1 },
+                { id: 'achievement-10', condition: stats.completedDays >= 10 },
+                { id: 'achievement-30', condition: stats.completedDays >= 30 },
+                { id: 'achievement-100', condition: stats.completedDays >= 100 },
+                { id: 'achievement-365', condition: stats.completedDays >= 365 },
+                { id: 'achievement-streak-7', condition: stats.streak >= 7 }
+            ];
+
+            achievements.forEach(achievement => {
+                const element = document.getElementById(achievement.id);
+                if (achievement.condition) {
+                    element.classList.add('unlocked');
+                }
+            });
+        }
+
+        // ===== معالج الملاحة =====
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // ===== تحميل لوحة التحكم =====
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

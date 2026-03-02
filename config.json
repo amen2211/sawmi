@@ -1,0 +1,212 @@
+{
+  "app_config": {
+    "name": "Swmi",
+    "display_name": "Swmi - صومي",
+    "version": "1.0.0",
+    "author": "Swmi Team",
+    "year": 2026,
+    "language": "ar",
+    "direction": "rtl"
+  },
+  "features": {
+    "authentication": true,
+    "local_storage": true,
+    "prayer_times": true,
+    "fasting_tracker": true,
+    "adhkar_counter": true,
+    "achievements": true,
+    "mobile_actions": true,
+    "responsive_design": true
+  },
+  "storage": {
+    "type": "localStorage",
+    "prefix": "swmi_",
+    "keys": {
+      "user": "swmi_user",
+      "fasting_days": "swmi_fasting_days",
+      "favorite_duas": "swmi_favorite_duas",
+      "settings": "swmi_settings",
+      "tasbeeh_count": "swmi_tasbeeh_count"
+    }
+  },
+  "themes": {
+    "colors": {
+      "primary": "#1a5c4a",
+      "secondary": "#2d8f7c",
+      "gold": "#d4a574",
+      "white": "#ffffff",
+      "dark": "#0d4a3d"
+    },
+    "fonts": {
+      "primary": "Segoe UI, Tahoma, Geneva",
+      "display": "inherit"
+    }
+  },
+  "pages": {
+    "main": "index.html",
+    "profile": "profile.html",
+    "dashboard": "dashboard.html"
+  },
+  "api": {
+    "data_source": "data.json",
+    "cache": true,
+    "timeout": 5000
+  },
+  "mobile": {
+    "actions": [
+      {
+        "name": "WhatsApp",
+        "icon": "fab fa-whatsapp",
+        "action": "share_whatsapp"
+      },
+      {
+        "name": "Call",
+        "icon": "fas fa-phone",
+        "action": "call"
+      },
+      {
+        "name": "Share",
+        "icon": "fas fa-share-alt",
+        "action": "native_share"
+      },
+      {
+        "name": "Email",
+        "icon": "fas fa-envelope",
+        "action": "send_email"
+      }
+    ],
+    "breakpoints": {
+      "tablet": 768,
+      "phone": 480,
+      "small_phone": 360
+    }
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "title": "قسم البطل",
+      "enabled": true
+    },
+    {
+      "id": "guide",
+      "title": "أحكام الصيام",
+      "enabled": true
+    },
+    {
+      "id": "ramadan",
+      "title": "مركز رمضان",
+      "enabled": true
+    },
+    {
+      "id": "countdown",
+      "title": "عداد الإفطار",
+      "enabled": true
+    },
+    {
+      "id": "daily-content",
+      "title": "محتوى يومي",
+      "enabled": true
+    },
+    {
+      "id": "adhkar",
+      "title": "الأذكار والدعاء",
+      "enabled": true
+    },
+    {
+      "id": "quran",
+      "title": "معرض آيات القرآن",
+      "enabled": true
+    },
+    {
+      "id": "faq",
+      "title": "الأسئلة الشائعة",
+      "enabled": true
+    },
+    {
+      "id": "healthy-ramadan",
+      "title": "رمضان صحي",
+      "enabled": true
+    },
+    {
+      "id": "community",
+      "title": "المجتمع",
+      "enabled": true
+    }
+  ],
+  "cities": [
+    "tunis",
+    "sfax",
+    "sousse",
+    "djerba",
+    "kairouan",
+    "bizerte",
+    "kasserine",
+    "gafsa",
+    "monastir",
+    "hammamet"
+  ],
+  "default_settings": {
+    "city": "tunis",
+    "theme": "light",
+    "notifications": true,
+    "language": "ar",
+    "dark_mode": false,
+    "email_reminders": false
+  },
+  "achievements": [
+    {
+      "id": "achievement-1",
+      "name": "البداية",
+      "icon": "🌙",
+      "description": "أكمل يومك الأول",
+      "requirement": 1
+    },
+    {
+      "id": "achievement-10",
+      "name": "10 أيام",
+      "icon": "⭐",
+      "description": "صم 10 أيام",
+      "requirement": 10
+    },
+    {
+      "id": "achievement-30",
+      "name": "شهر كامل",
+      "icon": "💫",
+      "description": "صم شهراً كاملاً",
+      "requirement": 30
+    },
+    {
+      "id": "achievement-100",
+      "name": "100 يوم",
+      "icon": "👑",
+      "description": "صم 100 يوم",
+      "requirement": 100
+    },
+    {
+      "id": "achievement-365",
+      "name": "سنة كاملة",
+      "icon": "🌟",
+      "description": "صم سنة كاملة",
+      "requirement": 365
+    },
+    {
+      "id": "achievement-streak-7",
+      "name": "سلسلة 7 أيام",
+      "icon": "🔥",
+      "description": "صم 7 أيام متتالية",
+      "requirement": 7
+    }
+  ],
+  "social": {
+    "whatsapp": "+216 (number)",
+    "facebook": "https://facebook.com/swmi",
+    "instagram": "https://instagram.com/swmi",
+    "twitter": "https://twitter.com/swmi",
+    "youtube": "https://youtube.com/swmi"
+  },
+  "contact": {
+    "email": "contact@swmi.com",
+    "phone": "+216",
+    "website": "https://swmi.com"
+  }
+}

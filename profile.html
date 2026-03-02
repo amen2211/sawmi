@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفي الشخصي - Swmi | صومي</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231a5c4a'/><text x='50' y='60' font-size='60' font-weight='bold' text-anchor='middle' fill='%23d4a574'>🌙</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            padding: 3rem 2rem;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .profile-avatar {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .profile-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-top: 4px solid var(--gold);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .profile-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .profile-section h3 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .info-value {
+            color: #555;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #c89d5c 100%);
+            color: var(--primary-green);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .action-btn.danger {
+            background: #e74c3c;
+            color: var(--white);
+        }
+
+        .action-btn.danger:hover {
+            box-shadow: 0 8px 16px rgba(231, 76, 60, 0.3);
+        }
+
+        .milestone-bar {
+            background: var(--light-gray);
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .milestone-progress {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--primary-green) 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .favorite-duas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .dua-item {
+            background: rgba(26, 92, 74, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-right: 3px solid var(--gold);
+        }
+
+        .dua-item p {
+            color: #555;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .remove-btn {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 2rem 1rem;
+            }
+
+            .profile-name {
+                font-size: 1.8rem;
+            }
+
+            .profile-avatar {
+                font-size: 3.5rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-content {
+                padding: 0 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    <span>Swmi</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+                    <li><a href="profile.html" class="nav-link">ملفي</a></li>
+                    <li><a href="dashboard.html" class="nav-link">لوحة التحكم</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-avatar" id="profile-avatar">👨</div>
+        <h1 class="profile-name" id="profile-name">اسمك هنا</h1>
+        <p class="profile-bio" id="profile-bio">السلام عليكم ورحمة الله</p>
+        <p style="margin-top: 1rem; opacity: 0.8;" id="profile-email">email@example.com</p>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <!-- Statistics -->
+        <div class="profile-grid" id="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">إجمالي أيام الصيام</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-completed">0</div>
+                <div class="stat-label">أيام مكتملة</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-streak">0</div>
+                <div class="stat-label">السلسلة الحالية</div>
+            </div>
+        </div>
+
+        <!-- Milestone -->
+        <div class="profile-section" id="milestone-container" style="display: none;">
+            <h3>الهدف القادم</h3>
+            <div id="milestone-content"></div>
+        </div>
+
+        <!-- User Info -->
+        <div class="profile-section">
+            <h3>معلوماتي الشخصية</h3>
+            <div id="info-content"></div>
+            <div class="action-buttons">
+                <button class="action-btn" id="edit-btn">
+                    <i class="fas fa-edit"></i> تعديل الملف
+                </button>
+                <button class="action-btn" id="export-btn">
+                    <i class="fas fa-download"></i> تنزيل البيانات
+                </button>
+            </div>
+        </div>
+
+        <!-- Favorite Duas -->
+        <div class="profile-section">
+            <h3>أدعيتي المفضلة</h3>
+            <div class="favorite-duas" id="favorite-duas-container">
+                <p style="color: #999;">لا توجد أدعية مفضلة بعد</p>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="profile-section">
+            <h3>الإعدادات</h3>
+            <div style="margin-top: 1rem;">
+                <label style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="checkbox" id="notifications-toggle" checked>
+                    <span>تفعيل الإشعارات</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="checkbox" id="dark-mode-toggle" checked>
+                    <span>المظهر الداكن</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 1rem;">
+                    <input type="checkbox" id="email-reminders-toggle">
+                    <span>تذكيرات البريد الإلكتروني</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="profile-section" style="border-top: 3px solid #e74c3c;">
+            <h3 style="color: #e74c3c;">منطقة الخطورة</h3>
+            <p style="color: #666; margin-bottom: 1rem;">هذه الإجراءات لا يمكن التراجع عنها</p>
+            <button class="action-btn danger" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+            <button class="action-btn danger" id="delete-btn" style="margin-top: 1rem;">
+                <i class="fas fa-trash"></i> حذف الحساب
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Actions -->
+    <div class="mobile-actions">
+        <button class="mobile-btn" id="whatsapp-btn" title="شارك على WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </button>
+        <button class="mobile-btn" id="call-btn" title="اتصل بنا">
+            <i class="fas fa-phone"></i>
+            <span>اتصل</span>
+        </button>
+        <button class="mobile-btn" id="share-btn" title="شارك">
+            <i class="fas fa-share-alt"></i>
+            <span>شارك</span>
+        </button>
+        <button class="mobile-btn" id="email-btn" title="راسلنا بالبريد">
+            <i class="fas fa-envelope"></i>
+            <span>بريد</span>
+        </button>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // ===== التحقق من تسجيل الدخول =====
+        if (!auth.isLoggedIn()) {
+            alert('يرجى تسجيل الدخول أولاً');
+            window.location.href = 'index.html';
+        }
+
+        // ===== تحميل بيانات الملف الشخصي =====
+        function loadProfile() {
+            const user = auth.getCurrentUser();
+            const stats = progress.getOverallStats();
+            const milestone = progress.getNextMilestone();
+
+            // تحديث رأس الملف
+            document.getElementById('profile-avatar').textContent = user.avatar;
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-bio').textContent = user.bio;
+            document.getElementById('profile-email').textContent = user.email || 'بدون بريد إلكتروني';
+
+            // تحديث الإحصائيات
+            document.getElementById('stat-total').textContent = stats.totalFastingDays;
+            document.getElementById('stat-completed').textContent = stats.completedDays;
+            document.getElementById('stat-streak').textContent = stats.streak;
+
+            // تحديث الهدف
+            if (milestone) {
+                const container = document.getElementById('milestone-container');
+                container.style.display = 'block';
+                const percentage = Math.min(milestone.percentage, 100);
+                document.getElementById('milestone-content').innerHTML = `
+                    <p style="margin-bottom: 1rem;">الهدف: <strong>${milestone.target} أيام صيام</strong> (${Math.round(percentage)}%)</p>
+                    <div class="milestone-bar">
+                        <div class="milestone-progress" style="width: ${percentage}%"></div>
+                    </div>
+                    <p style="margin-top: 1rem; color: #666;">بقي: <strong>${milestone.remaining}</strong> أيام للوصول للهدف</p>
+                `;
+            }
+
+            // تحديث المعلومات الشخصية
+            document.getElementById('info-content').innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">الاسم</span>
+                    <span class="info-value">${user.name}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">البريد الإلكتروني</span>
+                    <span class="info-value">${user.email || 'غير محدد'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">المدينة</span>
+                    <span class="info-value">${user.city}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">تاريخ الانضمام</span>
+                    <span class="info-value">${new Date(user.joinDate).toLocaleDateString('ar-TN')}</span>
+                </div>
+            `;
+
+            // تحميل الأدعية المفضلة
+            loadFavoriteDuas();
+
+            // تحميل الإعدادات
+            const settings = storage.getSettings();
+            document.getElementById('notifications-toggle').checked = settings.notifications;
+            document.getElementById('dark-mode-toggle').checked = settings.darkMode;
+            document.getElementById('email-reminders-toggle').checked = settings.emailReminders;
+        }
+
+        // ===== تحميل الأدعية المفضلة =====
+        function loadFavoriteDuas() {
+            const duas = storage.getFavoriteDuas();
+            const container = document.getElementById('favorite-duas-container');
+
+            if (duas.length === 0) {
+                container.innerHTML = '<p style="color: #999;">لا توجد أدعية مفضلة بعد</p>';
+                return;
+            }
+
+            container.innerHTML = duas.map(dua => `
+                <div class="dua-item">
+                    <p>${dua.text}</p>
+                    <p style="font-size: 0.9rem; color: #999;">${dua.category || ''}</p>
+                    <span class="remove-btn" onclick="removeFavoriteDua(${dua.id})">
+                        <i class="fas fa-times"></i> إزالة
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // ===== إزالة دعاء من المفضلة =====
+        function removeFavoriteDua(duaId) {
+            storage.removeFavoriteDua(duaId);
+            loadFavoriteDuas();
+        }
+
+        // ===== معالج أزرار العمل =====
+        document.getElementById('edit-btn').addEventListener('click', () => {
+            const newName = prompt('الاسم الجديد:', auth.getCurrentUser().name);
+            if (newName) {
+                auth.updateProfile({ name: newName });
+                loadProfile();
+            }
+        });
+
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const data = storage.exportData();
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `swmi-profile-${Date.now()}.json`;
+            link.click();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            if (confirm('هل أنت تأكيد تسجيل الخروج؟')) {
+                auth.logout();
+                window.location.href = 'index.html';
+            }
+        });
+
+        document.getElementById('delete-btn').addEventListener('click', () => {
+            if (confirm('تحذير: حذف الحساب لا يمكن التراجع عنه!\n\nهل أنت متأكد؟')) {
+                if (confirm('آخر تحذير! سيتم حذف جميع بياناتك!')) {
+                    auth.deleteAccount();
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+
+        // ===== معالج الإعدادات =====
+        document.getElementById('notifications-toggle').addEventListener('change', (e) => {
+            const settings = storage.getSettings();
+            settings.notifications = e.target.checked;
+            storage.saveSettings(settings);
+        });
+
+        document.getElementById('dark-mode-toggle').addEventListener('change', (e) => {
+            const settings = storage.getSettings();
+            settings.darkMode = e.target.checked;
+            storage.saveSettings(settings);
+        });
+
+        document.getElementById('email-reminders-toggle').addEventListener('change', (e) => {
+            const settings = storage.getSettings();
+            settings.emailReminders = e.target.checked;
+            storage.saveSettings(settings);
+        });
+
+        // ===== معالج الملاحة =====
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // ===== تحميل الملف الشخصي عند التحميل =====
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+</body>
+</html>

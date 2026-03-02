@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Swmi - منصتك الشاملة للصيام والارتقاء الروحي">
+    <title>Sawmi - صومي | منصة الصيام والارتقاء الروحي</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231a5c4a'/><text x='50' y='60' font-size='60' font-weight='bold' text-anchor='middle' fill='%23d4a574'>🌙</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    <style>
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-modal.active {
+            display: flex;
+        }
+
+        .auth-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--light-gray);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: var(--white);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            direction: rtl;
+            text-align: right;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #c89d5c 100%);
+            color: var(--primary-green);
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--dark-text);
+        }
+
+        .user-profile-btn {
+            background: var(--gold);
+            color: var(--primary-green);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile-btn:hover {
+            transform: scale(1.05);
+        }
+    </style></head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    <span>Sawmi</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#hero" class="nav-link">الرئيسية</a></li>
+                    <li><a href="#guide" class="nav-link">أحكام الصيام</a></li>
+                    <li><a href="#ramadan" class="nav-link">رمضان</a></li>
+                    <li><a href="#countdown" class="nav-link">الإفطار</a></li>
+                    <li><a href="#adhkar" class="nav-link">الأذكار</a></li>
+                    <li><a href="#quran" class="nav-link">القرآن</a></li>
+                    <li><a href="#faq" class="nav-link">الأسئلة</a></li>
+                    <li id="auth-nav-item">
+                        <button class="user-profile-btn" id="auth-nav-btn" onclick="openAuthModal()">دخول</button>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-background">
+            <div class="mosque-silhouette"></div>
+            <div class="calligraphy-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Sawmi</h1>
+            <p class="hero-subtitle-arabic">صومي</p>
+            <p class="hero-description">منصتك الشاملة للصيام والارتقاء الروحي</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary" id="startBtn">ابدأ رحلتك الإيمانية</button>
+                <button class="btn btn-secondary" id="guideBtn">أحكام الصيام</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quranic Verse Section -->
+    <section class="quran-verse-hero">
+        <div class="verse-container">
+            <p class="verse-text">
+                <i class="fas fa-quote-left"></i>
+                يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ كَمَا كُتِبَ عَلَى الَّذِينَ مِن قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ
+                <i class="fas fa-quote-right"></i>
+            </p>
+            <p class="verse-reference">سورة البقرة، الآية 183</p>
+        </div>
+    </section>
+
+    <!-- Comprehensive Fasting Guide -->
+    <section id="guide" class="fasting-guide">
+        <div class="section-header">
+            <div class="crescent-icon">🌙</div>
+            <h2>شرح شامل لأحكام الصيام</h2>
+            <p class="section-subtitle">معلومات إسلامية موثوقة عن الصيام وأحكامه</p>
+        </div>
+
+        <div class="guide-grid">
+            <!-- تعريف الصيام -->
+            <div class="guide-card" data-section="definition">
+                <div class="card-icon">📖</div>
+                <h3>تعريف الصيام</h3>
+                <p>الصيام لغة: الإمساك والامتناع</p>
+                <p>الصيام شرعاً: الإمساك عن الطعام والشراب والجماع من طلوع الفجر إلى غروب الشمس بنية</p>
+            </div>
+
+            <!-- حكم الصيام -->
+            <div class="guide-card" data-section="ruling">
+                <div class="card-icon">⚖️</div>
+                <h3>حكم الصيام</h3>
+                <p>صيام رمضان فرض عين على كل مسلم بالغ عاقل قادر</p>
+                <p>دليله: القرآن والسنة والإجماع</p>
+            </div>
+
+            <!-- شروط الوجوب -->
+            <div class="guide-card" data-section="conditions">
+                <div class="card-icon">✓</div>
+                <h3>شروط الوجوب</h3>
+                <ul class="conditions-list">
+                    <li>الإسلام</li>
+                    <li>البلوغ</li>
+                    <li>العقل</li>
+                    <li>الاستطاعة والقدرة</li>
+                    <li>الحضر (عدم السفر)</li>
+                </ul>
+            </div>
+
+            <!-- أركان الصيام -->
+            <div class="guide-card" data-section="pillars">
+                <div class="card-icon">🎯</div>
+                <h3>أركان الصيام</h3>
+                <ul class="conditions-list">
+                    <li>النية: قبل الفجر بتكميم النفس</li>
+                    <li>الإمساك: عن الطعام والشراب</li>
+                    <li>الامتناع: عن الجماع والمفطرات</li>
+                </ul>
+            </div>
+
+            <!-- مبطلات الصيام -->
+            <div class="guide-card" data-section="nullifiers">
+                <div class="card-icon">❌</div>
+                <h3>مبطلات الصيام</h3>
+                <ul class="conditions-list">
+                    <li>الأكل والشرب متعمداً</li>
+                    <li>الجماع</li>
+                    <li>الحيض والنفاس</li>
+                    <li>الاستقاءة (إخراج القيء)</li>
+                </ul>
+            </div>
+
+            <!-- سنن الصيام -->
+            <div class="guide-card" data-section="sunnahs">
+                <div class="card-icon">✨</div>
+                <h3>سنن الصيام</h3>
+                <ul class="conditions-list">
+                    <li>السحور</li>
+                    <li>تأخير السحور</li>
+                    <li>الإفطار بالتمر</li>
+                    <li>الدعاء عند الإفطار</li>
+                    <li>قراءة القرآن</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Detailed Hadith Section -->
+        <div class="hadith-section">
+            <h3>أحاديث صحيحة في الصيام</h3>
+            <div class="hadith-cards">
+                <div class="hadith-card">
+                    <div class="hadith-number">1</div>
+                    <p class="hadith-text">
+                        "من صام رمضان إيماناً واحتساباً غفر له ما تقدم من ذنبه"
+                    </p>
+                    <p class="hadith-source">رواه البخاري ومسلم عن أبي هريرة</p>
+                </div>
+                <div class="hadith-card">
+                    <div class="hadith-number">2</div>
+                    <p class="hadith-text">
+                        "الصيام جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب"
+                    </p>
+                    <p class="hadith-source">رواه البخاري ومسلم عن أبي هريرة</p>
+                </div>
+                <div class="hadith-card">
+                    <div class="hadith-number">3</div>
+                    <p class="hadith-text">
+                        "للصائم فرحتان: فرحة عند إفطاره، وفرحة عند لقاء ربه"
+                    </p>
+                    <p class="hadith-source">رواه البخاري عن أبي هريرة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ramadan Spiritual Hub -->
+    <section id="ramadan" class="ramadan-hub">
+        <div class="section-header">
+            <div class="crescent-icon">⭐</div>
+            <h2>مركز رمضان الروحي</h2>
+            <p class="section-subtitle">استكشف فضائل رمضان والعشر الأواخر</p>
+        </div>
+
+        <div class="ramadan-grid">
+            <!-- فضل رمضان -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #1a5c4a 0%, #2d8f7c 100%);">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-body">
+                    <h3>فضل رمضان</h3>
+                    <p>رمضان شهر عظيم تتضاعف فيه الحسنات وتُكفّر الذنوب</p>
+                    <ul>
+                        <li>✓ فيه ليلة القدر خير من ألف شهر</li>
+                        <li>✓ تُفتح فيه أبواب الجنة وتُغلق أبواب النار</li>
+                        <li>✓ تُصفد فيه الشياطين</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- العشر الأواخر -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #d4a574 0%, #f4d4a8 100%);">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="card-body">
+                    <h3>العشر الأواخر</h3>
+                    <p>أفضل أيام رمضان وأعظم أوقاته روحانية</p>
+                    <ul>
+                        <li>✓ أيام المضاعفة والتكفير</li>
+                        <li>✓ فيها ليلة القدر</li>
+                        <li>✓ وقت مضاعفة الجهود العبادية</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ليلة القدر -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #8b5a3c 0%, #d4a574 100%);">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="card-body">
+                    <h3>ليلة القدر</h3>
+                    <p>ليلة مباركة عظيمة في كل رمضان</p>
+                    <ul>
+                        <li>✓ خير من ألف شهر</li>
+                        <li>✓ تكون في العشر الأواخر</li>
+                        <li>✓ الدعاء فيها مستجاب</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- الاعتكاف -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #2d5a4a 0%, #1a5c4a 100%);">
+                    <i class="fas fa-hands-praying"></i>
+                </div>
+                <div class="card-body">
+                    <h3>الاعتكاف</h3>
+                    <p>سنة مؤكدة في العشر الأواخر من رمضان</p>
+                    <ul>
+                        <li>✓ الملازمة للمسجد بنية</li>
+                        <li>✓ الانقطاع عن الدنيا</li>
+                        <li>✓ التفرغ للعبادة</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- زكاة الفطر -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #a67e4a 0%, #d4a574 100%);">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="card-body">
+                    <h3>زكاة الفطر</h3>
+                    <p>واجب على كل مسلم قبل عيد الفطر</p>
+                    <ul>
+                        <li>✓ تطهير للصائم من اللغو والرفث</li>
+                        <li>✓ طعمة للمساكين</li>
+                        <li>✓ وجوبها قبل الصلاة</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- الاستعداد الروحي -->
+            <div class="ramadan-card">
+                <div class="card-header" style="background: linear-gradient(135deg, #5a7a4a 0%, #7a9a5a 100%);">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="card-body">
+                    <h3>الاستعداد الروحي</h3>
+                    <p>كيفية الاستعداد الأمثل لاستقبال رمضان</p>
+                    <ul>
+                        <li>✓ تجديد النية والتوبة</li>
+                        <li>✓ قراءة القرآن بتدبر</li>
+                        <li>✓ الإكثار من الدعاء والذكر</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Iftar Countdown -->
+    <section id="countdown" class="iftar-countdown">
+        <div class="section-header">
+            <div class="crescent-icon">⏱️</div>
+            <h2>عداد الإفطار التفاعلي</h2>
+            <p class="section-subtitle">احسب وقت الإفطار في مدينتك</p>
+        </div>
+
+        <div class="countdown-container">
+            <div class="city-selector">
+                <label for="city-select">اختر مدينتك:</label>
+                <select id="city-select">
+                    <option value="">-- اختر مدينة --</option>
+                    <option value="tunis">تونس</option>
+                    <option value="sfax">صفاقس</option>
+                    <option value="sousse">سوسة</option>
+                    <option value="djerba">جربة</option>
+                    <option value="kairouan">القيروان</option>
+                    <option value="bizerte">بنزرت</option>
+                    <option value="kasserine">القصرين</option>
+                    <option value="gafsa">قفصة</option>
+                    <option value="monastir">المنستير</option>
+                    <option value="hammamet">الحمامات</option>
+                </select>
+            </div>
+
+            <div class="countdown-display">
+                <h3 id="countdown-city">اختر مدينة لعرض الأوقات</h3>
+                <div class="countdown-timer">
+                    <div class="time-unit">
+                        <span class="time-value" id="countdown-hours">00</span>
+                        <span class="time-label">ساعة</span>
+                    </div>
+                    <span class="time-separator">:</span>
+                    <div class="time-unit">
+                        <span class="time-value" id="countdown-minutes">00</span>
+                        <span class="time-label">دقيقة</span>
+                    </div>
+                    <span class="time-separator">:</span>
+                    <div class="time-unit">
+                        <span class="time-value" id="countdown-seconds">00</span>
+                        <span class="time-label">ثانية</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prayer Times Table -->
+            <div class="prayer-times-table">
+                <h3>جدول أوقات الصلاة</h3>
+                <p id="prayer-error" class="prayer-error" style="display:none;"></p>
+                <table id="prayer-table">
+                    <thead>
+                        <tr>
+                            <th>الفجر</th>
+                            <th>الظهر</th>
+                            <th>العصر</th>
+                            <th>المغرب</th>
+                            <th>العشاء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="fajr-time">--:--</td>
+                            <td id="dhuhr-time">--:--</td>
+                            <td id="asr-time">--:--</td>
+                            <td id="maghrib-time">--:--</td>
+                            <td id="isha-time">--:--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Islamic Content -->
+    <section id="daily-content" class="daily-content">
+        <div class="section-header">
+            <div class="crescent-icon">📅</div>
+            <h2>محتوى يومي إسلامي</h2>
+            <p class="section-subtitle">آيات وأحاديث وتذكيرات يومية</p>
+        </div>
+
+        <div class="daily-grid">
+            <!-- آية اليوم -->
+            <div class="daily-card verse-card">
+                <div class="daily-header" style="background: linear-gradient(135deg, #1a5c4a 0%, #2d8f7c 100%);">
+                    <i class="fas fa-book"></i>
+                    <h3>آية اليوم</h3>
+                </div>
+                <div class="daily-content-box">
+                    <p class="verse-daily" id="daily-verse">
+                        قُلْ يَا عِبَادِ الَّذِينَ آمَنُوا اتَّقُوا رَبَّكُمْ ۚ لِلَّذِينَ أَحْسَنُوا فِي هَٰذِهِ الدُّنْيَا حَسَنَةٌ
+                    </p>
+                    <p class="verse-source" id="verse-source">سورة الزمر</p>
+                </div>
+            </div>
+
+            <!-- حديث اليوم -->
+            <div class="daily-card hadith-daily-card">
+                <div class="daily-header" style="background: linear-gradient(135deg, #8b5a3c 0%, #d4a574 100%);">
+                    <i class="fas fa-scroll"></i>
+                    <h3>حديث اليوم</h3>
+                </div>
+                <div class="daily-content-box">
+                    <p class="hadith-daily" id="daily-hadith">
+                        "الراحمون يرحمهم الرحمن، تحننوا على أهل الأرض يحنن عليكم من في السماء"
+                    </p>
+                    <p class="hadith-source" id="hadith-source">رواه الترمذي</p>
+                </div>
+            </div>
+
+            <!-- نصيحة رمضانية -->
+            <div class="daily-card tip-card">
+                <div class="daily-header" style="background: linear-gradient(135deg, #5a7a4a 0%, #7a9a5a 100%);">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>نصيحة رمضانية</h3>
+                </div>
+                <div class="daily-content-box">
+                    <p class="tip-text" id="daily-tip">
+                        احذر من هدر الوقت في رمضان على ما لا ينفع، واستثمر هذا الشهر الكريم في طاعة الله وقراءة القرآن والدعاء.
+                    </p>
+                </div>
+            </div>
+
+            <!-- تفسير مختصر -->
+            <div class="daily-card tafsir-card">
+                <div class="daily-header" style="background: linear-gradient(135deg, #a67e4a 0%, #d4a574 100%);">
+                    <i class="fas fa-commentary"></i>
+                    <h3>تفسير مختصر</h3>
+                </div>
+                <div class="daily-content-box">
+                    <p class="tafsir-text" id="daily-tafsir">
+                        التقوى: هي امتثال أوامر الله واجتناب نواهيه، والصيام مدرسة للتقوى لأنه يعلم الإنسان ضبط نفسه وشهواته.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adhkar & Duas Section -->
+    <section id="adhkar" class="adhkar-section">
+        <div class="section-header">
+            <div class="crescent-icon">🤲</div>
+            <h2>الأذكار والدعاء</h2>
+            <p class="section-subtitle">أذكار يومية وأدعية مستجابة</p>
+        </div>
+
+        <div class="adhkar-tabs">
+            <button class="tab-btn active" data-tab="iftar-dua">دعاء الإفطار</button>
+            <button class="tab-btn" data-tab="morning-adhkar">أذكار الصباح</button>
+            <button class="tab-btn" data-tab="evening-adhkar">أذكار المساء</button>
+            <button class="tab-btn" data-tab="sleep-adhkar">أذكار النوم</button>
+            <button class="tab-btn" data-tab="tasbeeh">التسبيح التفاعلي</button>
+        </div>
+
+        <!-- دعاء الإفطار -->
+        <div id="iftar-dua" class="tab-content active">
+            <div class="dua-card">
+                <h3>دعاء الإفطار</h3>
+                <p class="dua-text">
+                    "اللهم لك صمت وبك آمنت وعليك توكلت وعلى رزقك أفطرت، فغفر لي يا غفار ما قدمت وما أخرت"
+                </p>
+                <button class="copy-btn" onclick="copyToClipboard('اللهم لك صمت وبك آمنت وعليك توكلت وعلى رزقك أفطرت، فغفر لي يا غفار ما قدمت وما أخرت')">
+                    <i class="fas fa-copy"></i> نسخ الدعاء
+                </button>
+            </div>
+        </div>
+
+        <!-- أذكار الصباح -->
+        <div id="morning-adhkar" class="tab-content">
+            <div class="adhkar-list">
+                <div class="adhkar-item">
+                    <h4>سبحان الله وبحمده</h4>
+                    <p>"سبحان الله وبحمده عدد خلقه ورضا نفسه وزنة عرشه ومداد كلماته"</p>
+                    <p class="adhkar-count">100 مرة</p>
+                </div>
+                <div class="adhkar-item">
+                    <h4>الاستعاذة</h4>
+                    <p>"أعوذ بالله السميع العليم من الشيطان الرجيم"</p>
+                    <p class="adhkar-count">3 مرات في الصباح والمساء</p>
+                </div>
+                <div class="adhkar-item">
+                    <h4>حزب الحصن</h4>
+                    <p>"حسبي الله لا إله إلا هو، عليه توكلت وهو رب العرش العظيم"</p>
+                    <p class="adhkar-count">7 مرات</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- أذكار المساء -->
+        <div id="evening-adhkar" class="tab-content">
+            <div class="adhkar-list">
+                <div class="adhkar-item">
+                    <h4>التسليم على النفس</h4>
+                    <p>"اللهم أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له"</p>
+                </div>
+                <div class="adhkar-item">
+                    <h4>حفظ الله</h4>
+                    <p>"بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم"</p>
+                    <p class="adhkar-count">3 مرات</p>
+                </div>
+                <div class="adhkar-item">
+                    <h4>الرقية الشرعية</h4>
+                    <p>"أعيذ نفسي بكلمات الله التامة من كل شيطان وهامة ومن كل عين لامة"</p>
+                    <p class="adhkar-count">3 مرات</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- أذكار النوم -->
+        <div id="sleep-adhkar" class="tab-content">
+            <div class="adhkar-list">
+                <div class="adhkar-item">
+                    <h4>دعاء النوم</h4>
+                    <p>"اللهم أنت خلقت نفسي وأنت تتوفاها، لك مماتها ومحياها، إن أحييتها فاحفظها"</p>
+                </div>
+                <div class="adhkar-item">
+                    <h4>التسليم لله</h4>
+                    <p>"باسم الله وضعت جنبي، اللهم اغفر لي ذنبي، واغفر لي إن أذنبت"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- التسبيح التفاعلي -->
+        <div id="tasbeeh" class="tab-content">
+            <div class="tasbeeh-counter">
+                <h3>التسبيح التفاعلي</h3>
+                <div class="tasbeeh-display">
+                    <div class="counter-circle">
+                        <span class="counter-number" id="counter">0</span>
+                    </div>
+                </div>
+                <div class="tasbeeh-phrase" id="tasbeeh-phrase">سبحان الله</div>
+                <div class="tasbeeh-buttons">
+                    <button class="counter-btn" onclick="incrementCounter()">+1</button>
+                    <button class="counter-btn secondary" onclick="resetCounter()">إعادة تعيين</button>
+                    <button class="counter-btn" onclick="changePhrase('سبحان الله الحمد لله')">الحمد لله</button>
+                </div>
+                <div class="tasbeeh-phrases-list">
+                    <p><strong>الأذكار التقليدية:</strong></p>
+                    <button class="phrase-option" onclick="changePhrase('سبحان الله'); resetCounter();">سبحان الله (33)</button>
+                    <button class="phrase-option" onclick="changePhrase('الحمد لله'); resetCounter();">الحمد لله (33)</button>
+                    <button class="phrase-option" onclick="changePhrase('الله أكبر'); resetCounter();">الله أكبر (34)</button>
+                    <button class="phrase-option" onclick="changePhrase('لا إله إلا الله'); resetCounter();">لا إله إلا الله (100)</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quran Gallery -->
+    <section id="quran" class="quran-gallery">
+        <div class="section-header">
+            <div class="crescent-icon">✨</div>
+            <h2>معرض الآيات القرآنية</h2>
+            <p class="section-subtitle">آيات قرآنية بخط عربي أنيق</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-card">
+                <div class="verse-card-art">
+                    <p class="verse-art-text">الحمد لله رب العالمين</p>
+                    <p class="verse-art-source">سورة الفاتحة</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="verse-card-art" style="background: linear-gradient(135deg, #8b5a3c 0%, #d4a574 100%);">
+                    <p class="verse-art-text">قل هو الله أحد</p>
+                    <p class="verse-art-source">سورة الإخلاص</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="verse-card-art" style="background: linear-gradient(135deg, #5a7a4a 0%, #7a9a5a 100%);">
+                    <p class="verse-art-text">يا أيها الناس إنا خلقناكم من ذكر وأنثى</p>
+                    <p class="verse-art-source">سورة الحجرات</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="verse-card-art" style="background: linear-gradient(135deg, #a67e4a 0%, #d4a574 100%);">
+                    <p class="verse-art-text">الصبر مفتاح الفرج</p>
+                    <p class="verse-art-source">حكمة إسلامية</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="verse-card-art" style="background: linear-gradient(135deg, #1a5c4a 0%, #2d8f7c 100%);">
+                    <p class="verse-art-text">رب اشرح لي صدري ويسر لي أمري</p>
+                    <p class="verse-art-source">سورة طه</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="verse-card-art" style="background: linear-gradient(135deg, #2d5a4a 0%, #1a5c4a 100%);">
+                    <p class="verse-art-text">إن مع العسر يسرا</p>
+                    <p class="verse-art-source">سورة الشرح</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Islamic Q&A -->
+    <section id="faq" class="islamic-faq">
+        <div class="section-header">
+            <div class="crescent-icon">❓</div>
+            <h2>الأسئلة الشائعة</h2>
+            <p class="section-subtitle">إجابات موثوقة على أسئلة الصيام والرمضان</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>متى يدخل وقت تحريم الطعام والشراب؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>يدخل وقت تحريم الطعام والشراب مع طلوع الفجر الثاني (الفجر الحقيقي وليس الفجر الكاذب)، وينتهي عند غروب الشمس.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>هل معاشرة الزوجة جائزة في الليل أثناء الصيام؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>نعم، جائزة تماماً في الليل قبل نية الصيام. قال تعالى: "أحل لكم ليلة الصيام الرفث إلى نسائكم"</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>هل من يسافر يجب عليه الصيام؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>لا، المسافر له رخصة الإفطار (الفطر أفضل) ويقضي أيام الإفطار بعد رمضان. والصيام إذا قويت عليه وشق لا حرج.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>ما حكم استخدام معجون الأسنان وبخاخ الفم للصائم؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>الأفضل تجنب معجون الأسنان أثناء الصيام. أما بخاخ الفم فإذا لم ينزل إلى الحلق فلا بأس. والسواك مستحب طيلة النهار.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>ما حكم النظر والسماع للمحرمات أثناء الصيام؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>حرام قطعاً. الصيام يشمل جميع الجوارح من اللسان والعين والأذن والنفس. قال الرسول: "الصيام جنة فإذا كان يوم صوم أحدكم فلا يرفث"</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>هل خروج الدم من الأسنان أو الجروح يضر الصيام؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>لا يضر الصيام، بشرط عدم ابتلاع الدم. لكن يجب غسل الفم وعدم تركه للدم.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-header">
+                    <span>ما أفضل دعاء يقال في رمضان؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-body">
+                    <p>أفضل دعاء هو الإكثار من قول: "اللهم إنك عفو تحب العفو فاعف عني". وكذلك الدعاء عند الإفطار: "اللهم لك صمت وبك آمنت وعليك توكلت"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Healthy Ramadan Section -->
+    <section class="healthy-ramadan">
+        <div class="section-header">
+            <div class="crescent-icon">🏥</div>
+            <h2>رمضان صحي وسليم</h2>
+            <p class="section-subtitle">نصائح طبية وغذائية للصائم</p>
+        </div>
+
+        <div class="health-grid">
+            <!-- نصائح غذائية -->
+            <div class="health-card">
+                <div class="health-icon">🥗</div>
+                <h3>النصائح الغذائية</h3>
+                <ul>
+                    <li>✓ ابدأ الإفطار بالتمر والماء</li>
+                    <li>✓ تناول الخضروات والفواكه</li>
+                    <li>✓ اشرب كميات كافية من الماء</li>
+                    <li>✓ تجنب الدهون الثقيلة</li>
+                    <li>✓ قلل من الملح والسكريات</li>
+                    <li>✓ لا تبالغ في الأكل</li>
+                </ul>
+            </div>
+
+            <!-- نصائح طبية -->
+            <div class="health-card">
+                <div class="health-icon">💊</div>
+                <h3>النصائح الطبية</h3>
+                <ul>
+                    <li>✓ استشر الطبيب إن كان لديك مرض مزمن</li>
+                    <li>✓ امشِ بعد الإفطار لتسهيل الهضم</li>
+                    <li>✓ تجنب الإرهاق الشديد</li>
+                    <li>✓ احصل على قسط كافٍ من النوم</li>
+                    <li>✓ مارس تمارين خفيفة</li>
+                    <li>✓ راقب ضغط دمك</li>
+                </ul>
+            </div>
+
+            <!-- تنظيم النوم -->
+            <div class="health-card">
+                <div class="health-icon">😴</div>
+                <h3>تنظيم النوم</h3>
+                <ul>
+                    <li>✓ حافظ على جدول نوم منتظم</li>
+                    <li>✓ تجنب السهر الطويل</li>
+                    <li>✓ نم بعد صلاة الفجر قليلاً</li>
+                    <li>✓ خذ قيلولة صغيرة بعد الظهر</li>
+                    <li>✓ تجنب المنبهات قبل النوم</li>
+                    <li>✓ اجعل غرفتك باردة ومظلمة</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Health Tips Carousel -->
+        <div class="health-tips-carousel">
+            <h3>نصائح صحية يومية</h3>
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <p><strong>اليوم الأول:</strong> ابدأ بتناول التمرات والعسل لتعويض الطاقة بسرعة</p>
+                </div>
+                <div class="carousel-slide">
+                    <p><strong>اليوم الثاني:</strong> انتبه لترطيب جسمك، اشرب الماء والمشروبات الطبيعية</p>
+                </div>
+                <div class="carousel-slide">
+                    <p><strong>اليوم الثالث:</strong> تناول الأطعمة الغنية بالألياف للهضم الجيد</p>
+                </div>
+                <div class="carousel-slide">
+                    <p><strong>اليوم الرابع:</strong> لا تسهر أخيراً، احصل على 6-8 ساعات من النوم</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Feature (Concept) -->
+    <section class="community-section">
+        <div class="section-header">
+            <div class="crescent-icon">👥</div>
+            <h2>مجتمع سوميّ</h2>
+            <p class="section-subtitle">انضم لمجتمعنا الروحي والاستفادة من الميزات</p>
+        </div>
+
+        <div class="community-features">
+            <div class="community-card">
+                <div class="feature-icon">👤</div>
+                <h3>حسابك الشخصي</h3>
+                <p>أنشئ حسابك واحفظ تفضيلاتك وتتبع تقدمك الروحي</p>
+                <button class="btn btn-small">إنشاء حساب</button>
+            </div>
+
+            <div class="community-card">
+                <div class="feature-icon">❤️</div>
+                <h3>حفظ الأدعية المفضلة</h3>
+                <p>حفظ أدعيتك وأذكارك المفضلة للوصول السريع إليها</p>
+                <button class="btn btn-small">ابدأ الآن</button>
+            </div>
+
+            <div class="community-card">
+                <div class="feature-icon">📊</div>
+                <h3>متتبع أيام الصيام</h3>
+                <p>تتبع أيام صيامك وحقق أهدافك الروحية</p>
+                <button class="btn btn-small">ابدأ التتبع</button>
+            </div>
+
+            <div class="community-card">
+                <div class="feature-icon">📈</div>
+                <h3>مؤشر التقدم الروحي</h3>
+                <p>تابع نموك الروحي من خلال لوحة معلومات شاملة</p>
+                <button class="btn btn-small">استكشف</button>
+            </div>
+        </div>
+
+        <div class="community-cta">
+            <h3>جاهز للانضمام؟</h3>
+            <p>كن جزءاً من الآلاف الذين يرتقون روحياً مع Swmi</p>
+            <button class="btn btn-primary btn-large">انضم مجاناً الآن</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>عن Swmi</h4>
+                <p>منصة رقمية شاملة مكرسة للصيام والارتقاء الروحي، تجمع بين المعرفة الإسلامية والتكنولوجيا الحديثة</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>الأقسام</h4>
+                <ul>
+                    <li><a href="#guide">أحكام الصيام</a></li>
+                    <li><a href="#ramadan">رمضان</a></li>
+                    <li><a href="#adhkar">الأذكار</a></li>
+                    <li><a href="#quran">القرآن</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>تابعنا</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/amen.allah.ben.ibrahim.7/" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/amen_allah_exe/" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/amen.allah.exe/" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@amen.allah.exe1/" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>اتصل بنا</h4>
+                <form class="contact-form" onsubmit="return handleContact(event)">
+                    <input type="email" placeholder="بريدك الإلكتروني" required>
+                    <textarea placeholder="رسالتك" required></textarea>
+                    <button type="submit" class="btn btn-small">إرسال</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="decorative-line"></div>
+            <p>© Swmi 2026 - جميع الحقوق محفوظة</p>
+            <p style="font-size: 0.9em; color: #d4a574; margin-top: 0.5rem;">
+                <i class="fas fa-crescent-moon"></i>
+                منصتك الشاملة للصيام والارتقاء الروحي
+            </p>
+        </div>
+    </footer>
+
+    <!-- Authentication Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-content">
+            <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-header">
+                <h2>🌙 Sawmi - صومي</h2>
+                <p>منصتك الشاملة للصيام والارتقاء الروحي</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">دخول</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">تسجيل</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="submit-btn">دخول</button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>الاسم</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label>المدينة</label>
+                    <select id="register-city" required>
+                        <option value="tunis">تونس</option>
+                        <option value="sfax">صفاقس</option>
+                        <option value="sousse">سوسة</option>
+                        <option value="djerba">جربة</option>
+                        <option value="kasserine">القصرين</option>
+                        <option value="gafsa">قفصة</option>
+                        <option value="monastir">المنستير</option>
+                        <option value="hammamet">الحمامات</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="submit-btn">تسجيل</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Phone Actions Bar -->
+    <div class="mobile-actions" id="mobile-actions">
+        <button class="mobile-btn" id="whatsapp-btn" title="شارك على WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </button>
+        <button class="mobile-btn" id="call-btn" title="اتصل بنا">
+            <i class="fas fa-phone"></i>
+            <span>اتصل</span>
+        </button>
+        <button class="mobile-btn" id="share-btn" title="شارك">
+            <i class="fas fa-share-alt"></i>
+            <span>شارك</span>
+        </button>
+        <button class="mobile-btn" id="email-btn" title="راسلنا بالبريد">
+            <i class="fas fa-envelope"></i>
+            <span>بريد</span>
+        </button>
+    </div>
+
+    <script>
+        let lastScrollTop = 0;
+        const mobileActions = document.getElementById('mobile-actions');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop) {
+                // Scrolling down - hide
+                mobileActions.style.transform = 'translateY(120px)';
+                mobileActions.style.opacity = '0';
+            } else {
+                // Scrolling up - show
+                mobileActions.style.transform = 'translateY(0)';
+                mobileActions.style.opacity = '1';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+    </script>
+
+    <!-- Scripts -->
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
